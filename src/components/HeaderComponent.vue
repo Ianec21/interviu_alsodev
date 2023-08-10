@@ -79,7 +79,7 @@ import LoginForm from './LoginForm.vue';
             this.isLogged = false;
         }
 
-        this.username = sessionStorage.getItem("username").toString() || "";
+        this.username = sessionStorage.getItem("username") || "";
     },
     components: { CartComponent, LoginForm }
 }

@@ -8,7 +8,8 @@
 		</div>
 		<div class="cards cards-restaurants">
 			<div class="item" v-for="(card, index) in this.restaurants" v-bind:key="index">
-                <RestaurantCard v-if="card.name.toLowerCase().includes(this.searchInputValue.toLowerCase())" v-bind:id="index" v-bind:data="card"/>
+                <RestaurantCard v-if="this.searchInputValue.length > 0 && card.name.toLowerCase().includes(this.searchInputValue.toLowerCase())" v-bind:id="index" v-bind:data="card"/>
+                <RestaurantCard v-else v-bind:id="index" v-bind:data="card"/>
             </div>
 		</div>
 	</section>

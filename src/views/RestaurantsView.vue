@@ -30,6 +30,7 @@
   
     mounted() {
       this.db = dbFile.db;
+      this.isLoading = false;
     },
   }
   </script>
