@@ -14,6 +14,7 @@ const isConsecutive = (numbers) => {
     numbers.map((number, index) => {
         if(!(numbers[index + 1] && numbers[index + 1] === (number + 1)) && !(!numbers[index + 1] && numbers[index - 1] === number - 1)){
             check = false;
+            return false;
         }
     });
 

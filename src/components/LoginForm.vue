@@ -1,7 +1,7 @@
 <template>
     <div v-if="this.isShowing" class="modal-auth">
 		<div class="modal-dialog modal-dialog-auth">
-			<button @click="this.closeFunction" class="close-auth">&times;</button>
+			<button @click="this.openCloseLogin" class="close-auth">&times;</button>
 			<form id="logInForm" @submit="this.handleLogin">
 				<fieldset class="modal-body">
 					<legend class="modal-title">Авторизация</legend>
@@ -31,16 +31,10 @@
     export default {
         name: "LoginForm",
 
-        props: {
-            isShowing: Boolean,
-            closeFunction: {
-                type: Function
-            }
-        },
-
         data(){
             return {
-                username: ""
+                username: "",
+                isShowing: false
             }
         },
 
@@ -48,9 +42,17 @@
             handleLogin() {
                 sessionStorage.setItem("isLogged", "true");
                 sessionStorage.setItem("username", this.username);
-                this.closeFunction();
+                this.openCloseLogin();
 
                 this.$router.go();
+            },
+
+            openCloseLogin(){
+                if(this.isShowing === false){
+                    this.isShowing = true;
+                } else if(this.isShowing === true) {
+                    this.isShowing = false;
+                }
             },
         },
         

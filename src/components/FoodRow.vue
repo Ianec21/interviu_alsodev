@@ -24,24 +24,35 @@
 
         methods: {
             handleCounterDec(){
-                let cart = sessionStorage.getItem("cart") || JSON.stringify({});
-                cart = JSON.parse(cart);
-                cart[this.data.id].count--;
-                if(cart[this.data.id].count <= 0){
-                    delete cart[this.data.id];
-                }
+                if(this.data.id){
+                    let cart = sessionStorage.getItem("cart") || JSON.stringify({});
+                    cart = JSON.parse(cart);
+                    cart[this.data.id].count--;
 
-                sessionStorage.setItem("cart", JSON.stringify(cart));
-                this.data = cart[this.data.id];
+                    this.$parent.updateTotalPrice(-cart[this.data.id].price);
+                    if(cart[this.data.id].count <= 0){
+                        delete cart[this.data.id];
+
+                        sessionStorage.setItem("cart", JSON.stringify(cart));
+                        this.data = cart[this.data.id];
+                        return;
+                    } else {
+                        sessionStorage.setItem("cart", JSON.stringify(cart));
+                        this.data = cart[this.data.id];
+                    }
+                }
             },
 
             handleCounterInc(){
-                let cart = sessionStorage.getItem("cart") || JSON.stringify({});
-                cart = JSON.parse(cart);
-                cart[this.data.id].count++;
+                if(this.data.id){
+                    let cart = sessionStorage.getItem("cart") || JSON.stringify({});
+                    cart = JSON.parse(cart);
+                    cart[this.data.id].count++;
 
-                sessionStorage.setItem("cart", JSON.stringify(cart));
-                this.data = cart[this.data.id];
+                    this.$parent.updateTotalPrice(cart[this.data.id].price);
+                    sessionStorage.setItem("cart", JSON.stringify(cart));
+                    this.data = cart[this.data.id];
+                }
             }
         },
         

@@ -3,7 +3,7 @@
 		<div class="modal-dialog">
 			<div class="modal-header">
 				<h3 class="modal-title">Корзина</h3>
-				<button @click="this.closeFunction" class="close">&times;</button>
+				<button @click="this.openCloseCart" class="close">&times;</button>
 			</div>
 			<!-- /.modal-header -->
 			<div class="modal-body">
@@ -14,7 +14,7 @@
 				<span class="modal-pricetag">{{ this.totalPrice }} ₽</span>
 				<div class="footer-buttons">
 					<button class="button button-primary">Оформить заказ</button>
-					<button class="button clear-cart" @click="this.closeFunction">Отмена</button>
+					<button class="button clear-cart" @click="this.openCloseCart">Отмена</button>
 				</div>
 			</div>
 			<!-- /.modal-footer -->
@@ -24,36 +24,45 @@
 </template>
 
 <script>
-import FoodRow from './FoodRow.vue';
+    import FoodRow from './FoodRow.vue';
 
     export default {
     name: "CartComponent",
-    props: {
-        isShowing: Boolean,
-        closeFunction: {
-            type: Function
-        }
-    },
+
     data() {
         return {
             products: Object,
             totalPrice: 0,
+            isShowing: false
         };
     },
-    methods: {
 
+    methods: {
+        openCloseCart(){
+            if(this.isShowing === false){
+                this.isShowing = true;
+            } else if(this.isShowing === true) {
+                this.isShowing = false;
+            }
+        },
+
+        getProducts(){
+            this.totalPrice = 0;
+            this.products = JSON.parse(sessionStorage.getItem("cart")) || {};  
+
+            for (const key in this.products) {
+                this.totalPrice = this.totalPrice + this.products[key].count * this.products[key].price;
+            }
+        },
+
+        updateTotalPrice(value){
+            this.totalPrice = this.totalPrice + value;
+        }
     },
 
     mounted(){
-        this.products = JSON.parse(sessionStorage.getItem("cart")) || {};   
-    },  
-
-    update(){
-        this.products = JSON.parse(sessionStorage.getItem("cart")) || {};
-
-        for(const product in this.products){
-            console.log(this.products[product]);
-            this.totalPrice = this.totalPrice + 1;
+        for (const key of Object.entries(this.products)) {
+            this.totalPrice = this.totalPrice + this.products[key].count * this.products[key].price;
         }
     },
 

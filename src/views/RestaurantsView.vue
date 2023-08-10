@@ -3,7 +3,7 @@
       <main>
         <div class="container">
           <PromoContainer/>
-          <Restaurants v-if="!this.isLoading" v-bind:restaurants="this.db.partners"/>
+          <Restaurants :restaurants="this.db.partners"/>
         </div>
       </main>
     </div>
@@ -23,14 +23,12 @@
   
     data() {
       return {
-        db: [],
-        isLoading: false
+        db: []
       }
     },
   
     mounted() {
       this.db = dbFile.db;
-      this.isLoading = false;
     },
   }
   </script>

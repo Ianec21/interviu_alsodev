@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <nav class="nav">
-            <img src="../assets/icons/logo.svg"/>
+            <img class="logo" @click="this.$router.push('/')" src="../assets/icons/logo.svg"/>
             
             <label class="address">
                 <input class="input input-address" type="text" placeholder="Адрес доставки"/>
@@ -24,8 +24,8 @@
 			</div>
         </nav>
 
-        <CartComponent :closeFunction="this.handleCart" :isShowing="this.showCart"/>
-        <LoginForm :closeFunction="this.handleLogin" :isShowing="this.showLogin"/>
+        <CartComponent ref="shopping_cart"/>
+        <LoginForm ref="login_panel"/>
     </div>
 </template>
 
@@ -48,27 +48,18 @@ import LoginForm from './LoginForm.vue';
             sessionStorage.setItem("isLogged", "false");
             if (sessionStorage.getItem("isLogged")) {
                 this.isLogged = false;
+
+                sessionStorage.setItem("cart", JSON.stringify({}));
             }
         },
 
         handleCart() {
-            if(sessionStorage.getItem('showCart') === "false"){
-                this.showCart = true
-                sessionStorage.setItem('showCart', 'true');
-            } else {
-                this.showCart = false
-                sessionStorage.setItem('showCart', 'false');
-            }
+            this.$refs.shopping_cart.openCloseCart();
+            this.$refs.shopping_cart.getProducts();
         },
 
         handleLogin() {
-            if(sessionStorage.getItem('showLogin') === "false"){
-                this.showLogin = true
-                sessionStorage.setItem('showLogin', 'true');
-            } else {
-                this.showLogin = false
-                sessionStorage.setItem('showLogin', 'false');
-            }
+            this.$refs.login_panel.openCloseLogin();
         }
     },
     mounted() {
@@ -86,6 +77,10 @@ import LoginForm from './LoginForm.vue';
 </script>
 
 <style scoped>
+
+    .logo {
+        cursor: pointer;
+    }
     .nav {
         display: flex;
         align-items: center;

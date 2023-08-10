@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card-food">
 	<img :src="getImageURL(this.data.image)" alt="image" class="card-image" />
 		<div class="card-text">
 			<div class="card-heading">
@@ -35,6 +35,8 @@
             },
 
             handleCartAdd(id){
+                if(sessionStorage.getItem("isLogged") !== "true") return;
+
                 let cart = sessionStorage.getItem("cart") || JSON.stringify({});
                 cart = JSON.parse(cart);
                 
@@ -57,7 +59,7 @@
 </script>
 
 <style>
-    .card {
+    .card-food {
         background: #ffffff;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         border-radius: 7px;

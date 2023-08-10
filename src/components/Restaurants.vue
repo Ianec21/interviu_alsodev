@@ -7,10 +7,7 @@
 			</label>
 		</div>
 		<div class="cards cards-restaurants">
-			<div class="item" v-for="(card, index) in this.restaurants" v-bind:key="index">
-                <RestaurantCard v-if="this.searchInputValue.length > 0 && card.name.toLowerCase().includes(this.searchInputValue.toLowerCase())" v-bind:id="index" v-bind:data="card"/>
-                <RestaurantCard v-else v-bind:id="index" v-bind:data="card"/>
-            </div>
+            <RestaurantCard v-for="(card, index) in this.filteredRestaurants" v-bind:key="index" v-bind:id="index" v-bind:data="card"/>
 		</div>
 	</section>
 </template>
@@ -23,7 +20,7 @@
 
         data(){
             return {
-                searchInputValue: ""
+                searchInputValue: "",
             }
         },
 
@@ -34,6 +31,16 @@
         props: {
             restaurants: Array
         },
+
+        computed: {
+            filteredRestaurants(){
+                if(this.restaurants){
+                    return this.restaurants.filter(i => i.name.toLowerCase().includes(this.searchInputValue.toLowerCase()));
+                } else {
+                    return [];
+                }
+            }
+        }
     }
 </script>
 

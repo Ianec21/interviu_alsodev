@@ -1,7 +1,9 @@
 <template>
-  <HeaderComponent/>
-  <router-view></router-view>
-  <FooterComponent/>
+  <div id="app">
+    <HeaderComponent/>
+    <router-view></router-view>
+    <FooterComponent/>
+  </div>
 </template>
 
 <script>
@@ -13,7 +15,11 @@
     components: {
       HeaderComponent,
       FooterComponent,
-    }
+    },
+    
+    mounted(){
+        document.title = "Delivery Food — доставка еды на дом"
+    },
   }
 </script>
 
